@@ -2,13 +2,21 @@
   <div class="app">
     <div class="input-side">
       <div class="image-upload">
-        <div v-if="image">
-          <img :src="image" class="image">
-          <h2> Pick Colors </h2>
+        <div v-show="image">
+          <img
+            ref="image"
+            :src="image"
+            @click="getColor($event)"
+            @load="onImageLoad"
+            class="image"
+          />
+          <h2>Pick Colors</h2>
+          <p :style="{ backgroundColor: color }">something</p>
+          <p>{{ color }}</p>
         </div>
-        <div v-else class="image-input">
+        <div v-show="!image" class="image-input">
           <p>Upload image here</p>
-          <input type="file" @change="imageUpload" accept="image/*"> 
+          <input type="file" @change="imageUpload" accept="image/*" />
         </div>
       </div>
     </div>
@@ -24,7 +32,7 @@ body {
   padding: 0;
   min-height: 100vh;
 }
-.app{
+.app {
   margin: 0;
   display: flex;
   height: 100vh;
@@ -64,19 +72,58 @@ export default {
   data() {
     return {
       image: null,
-
-    }
+      color: null,
+      imageLoaded: false,
+    };
   },
   methods: {
     imageUpload(event) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (e) => {
-        this.image = e.target.result
-      }
-      reader.readAsDataURL(event.target.files[0])
-    }
-    
-  },
-}
+        this.image = e.target.result;
+        this.imageLoaded = false;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      this.$nextTick(() => {
+        console.log("Image uploaded and DOM updated");
+      });
+    },
+    onimageLoad() {
+      console.log("here");
+      this.imageLoaded = true;
+    },
+    getColor(event) {
+      // if (!this.$refs.image) {
+      //   console.log("image not loaded", this.$refs.image);
+      //   return;
+      // }
+      this.$nextTick(() => {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        const image = this.$refs.image;
 
+        if (!image) {
+          console.error("Image element not found in $refs");
+          return;
+        }
+
+        canvas.width = image.width;
+        canvas.height = image.height;
+        context.drawImage(image, 0, 0);
+
+        // const rect = image.getBoundingClientRect();
+        // const x = event.clientX - rect.left;
+        // const y = event.clientY - rect.top;
+
+        const x = event.clientX;
+        const y = event.clientY;
+
+        const pixel = context.getImageData(x, y, 1, 1).data;
+        const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+        this.color = rgb;
+        console.log(this.color);
+      });
+    },
+  },
+};
 </script>
