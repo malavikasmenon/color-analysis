@@ -138,7 +138,28 @@ export default {
         }
         // this.color = rgb;
         // console.log(this.color);
+        if (this.skinColor && this.eyeColor && this.hairColor) {
+          this.doColorAnalysis();
+        }
       });
+    },
+    doColorAnalysis() {
+      let skin_categories = {
+        warm: (1, 2, 3),
+        cool: (1, 2, 3),
+        neutral: (1, 2, 3),
+        olive: (1, 2, 3),
+      };
+      let eye_categories = {
+        cool: (1, 2, 3),
+        warm: (1, 2, 3),
+      };
+      let hair_categories = {
+        cool: (1, 2, 3),
+        warm: (1, 2, 3),
+        grey: (1, 2, 3),
+      };
+      console.log(skin_categories, eye_categories, hair_categories);
     },
   },
 };
