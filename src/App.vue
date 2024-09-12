@@ -11,8 +11,10 @@
             class="image"
           />
           <h2>Pick Colors</h2>
-          <p :style="{ backgroundColor: color }">something</p>
-          <p>{{ color }}</p>
+          <!-- <p :style="{ backgroundColor: color }">something</p> -->
+          <p>Eye Color: {{ eyeColor }}</p>
+          <p>Hair Color: {{ hairColor }}</p>
+          <p>Skin Color: {{ skinColor }}</p>
         </div>
         <div v-show="!image" class="image-input">
           <p>Upload image here</p>
@@ -21,7 +23,12 @@
       </div>
     </div>
     <div class="output-side">
-      <h1></h1>
+      <div v-if="eyeColor && skinColor && hairColor">
+        <p>Your color analysis is given below</p>
+      </div>
+      <div v-else>
+        <p>Awaiting your color selection</p>
+      </div>
     </div>
   </div>
 </template>
@@ -72,7 +79,9 @@ export default {
   data() {
     return {
       image: null,
-      color: null,
+      eyeColor: null,
+      skinColor: null,
+      hairColor: null,
       imageLoaded: false,
     };
   },
@@ -120,8 +129,15 @@ export default {
 
         const pixel = context.getImageData(x, y, 1, 1).data;
         const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-        this.color = rgb;
-        console.log(this.color);
+        if (!this.eyeColor) {
+          this.eyeColor = rgb;
+        } else if (!this.hairColor) {
+          this.hairColor = rgb;
+        } else {
+          this.skinColor = rgb;
+        }
+        // this.color = rgb;
+        // console.log(this.color);
       });
     },
   },
