@@ -1,33 +1,42 @@
 <template>
-  <div class="app">
-    <div class="input-side">
-      <div class="image-upload">
-        <div v-show="image">
-          <img
-            ref="image"
-            :src="image"
-            @click="getColor($event)"
-            @load="onImageLoad"
-            class="image"
-          />
-          <h2>Pick Colors</h2>
-          <!-- <p :style="{ backgroundColor: color }">something</p> -->
-          <p>Eye Color: {{ eyeColor }}</p>
-          <p>Hair Color: {{ hairColor }}</p>
-          <p>Skin Color: {{ skinColor }}</p>
-        </div>
-        <div v-show="!image" class="image-input">
-          <p>Upload image here</p>
-          <input type="file" @change="imageUpload" accept="image/*" />
+  <div class="app dynapuff-font">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <h1 class="header">Find YOUR colors!</h1>
+    <div class="container">
+      <div class="input-side">
+        <div class="image-upload">
+          <div v-show="image">
+            <img
+              ref="image"
+              :src="image"
+              @click="getColor($event)"
+              @load="onImageLoad"
+              class="image"
+            />
+            <h2>Pick Colors</h2>
+            <!-- <p :style="{ backgroundColor: color }">something</p> -->
+            <p>Eye Color: {{ eyeColor }}</p>
+            <p>Hair Color: {{ hairColor }}</p>
+            <p>Skin Color: {{ skinColor }}</p>
+          </div>
+          <div v-show="!image" class="image-input">
+            <p>Upload image here</p>
+            <input type="file" @change="imageUpload" accept="image/*" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="output-side">
-      <div v-if="eyeColor && skinColor && hairColor">
-        <p>Your color analysis is given below</p>
-      </div>
-      <div v-else>
-        <p>Awaiting your color selection</p>
+      <div class="output-side">
+        <div v-if="eyeColor && skinColor && hairColor">
+          <p>Your color analysis is given below</p>
+        </div>
+        <div v-else>
+          <p>Awaiting your color selection</p>
+        </div>
       </div>
     </div>
   </div>
@@ -40,9 +49,17 @@ body {
   min-height: 100vh;
 }
 .app {
-  margin: 0;
+  /* margin: 0; */
+  /* display: flex; */
+  /* height: 100vh; */
+}
+.container {
   display: flex;
   height: 100vh;
+  margin: 0;
+}
+.header {
+  text-align: center;
 }
 .image-upload {
   /* border: 1px solid black; */
@@ -63,14 +80,22 @@ body {
   height: 100%;
   width: 50%;
   text-align: center;
+  background-color: #fae1dd;
   padding: 5%;
 }
 .output-side {
   height: 100%;
   width: 50%;
-  background-color: #f6f6f6;
+  background-color: #f8edeb;
   text-align: center;
   padding: 5%;
+}
+.dynapuff-font {
+  font-family: "DynaPuff", system-ui;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 </style>
 
