@@ -15,10 +15,35 @@
         <p>Hair Color: {{ hairColor }}</p>
         <p>Skin Color: {{ skinColor }}</p>
       </div>
-      <div v-show="!image" class="image-input">
+      <div v-show="!image">
+        <label for="file-upload" class="block">
+          <div
+            id="drop_zone"
+            @drop="dropHandler"
+            @dragover="onDragOver"
+            @dragleave="onDragLeave"
+          >
+            <p class="text-center text-gray-400">
+              Drag & drop <br />
+              or <br />
+              click <u class="cursor-pointer">here</u> to browse.
+            </p>
+            <input
+              id="file-upload"
+              type="file"
+              ref="fileInput"
+              v-bind="fileInput"
+              accept="image/*"
+              v-on:change="imageUpload"
+              class="hidden-input"
+            />
+          </div>
+        </label>
+      </div>
+      <!-- <div v-show="!image" class="image-input">
         <p>Upload image here</p>
         <input type="file" @change="imageUpload" accept="image/*" />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -35,20 +60,36 @@ export default {
     };
   },
   methods: {
+    async loadImageToBox(imageFile) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.image = e.target.result;
+            this.imageLoaded = false;
+        };
+        reader.readAsDataURL(imageFile);
+        this.$nextTick(() => {
+            console.log("Image uploaded and DOM updated");
+        });
+
+    },
     imageUpload(event) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.image = e.target.result;
-        this.imageLoaded = false;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-      this.$nextTick(() => {
-        console.log("Image uploaded and DOM updated");
-      });
+        this.loadImageToBox(event.target.files[0])
+    },
+    async dropHandler(event) {
+        event.preventDefault();
+        this.selectedFile = event.dataTransfer.files[0];
+        this.image = event.dataTransfer.files[0]
+        this.loadImageToBox(event.dataTransfer.files[0])
+    },
+    onDragLeave(event) {
+        event.preventDefault();
+    },
+    onDragOver(event) {
+        event.preventDefault();
     },
     onimageLoad() {
-      console.log("here");
-      this.imageLoaded = true;
+        console.log("here");
+        this.imageLoaded = true;
     },
     getColor(event) {
       // if (!this.$refs.image) {
@@ -118,5 +159,20 @@ export default {
   text-align: center;
   background-color: #fae1dd;
   padding: 5%;
+}
+#drop_zone {
+  border: 1px dashed grey;
+  margin-bottom: 10px;
+  padding: 5%;
+}
+.hidden-input {
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>
