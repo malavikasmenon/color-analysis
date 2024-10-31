@@ -1,20 +1,6 @@
 <template>
   <div class="input-side">
     <div class="image-upload">
-      <div v-show="image">
-        <img
-          ref="image"
-          :src="image"
-          @click="getColor($event)"
-          @load="onImageLoad"
-          class="image"
-        />
-        <h2>Pick Colors</h2>
-        <!-- <p :style="{ backgroundColor: color }">something</p> -->
-        <p>Eye Color: {{ eyeColor }}</p>
-        <p>Hair Color: {{ hairColor }}</p>
-        <p>Skin Color: {{ skinColor }}</p>
-      </div>
       <div v-show="!image">
         <label for="file-upload" class="block">
           <div
@@ -40,10 +26,45 @@
           </div>
         </label>
       </div>
-      <!-- <div v-show="!image" class="image-input">
-        <p>Upload image here</p>
-        <input type="file" @change="imageUpload" accept="image/*" />
-      </div> -->
+      <img
+        ref="image"
+        :src="image"
+        @click="getColor($event)"
+        @load="onImageLoad"
+        class="image"
+        v-show="image"
+      />
+      <div v-show="image">
+        <!-- <p>Click on photo to pick colors</p> -->
+        <p>
+          <label for="eye-color">Eye Color</label>
+          <input
+            type="text"
+            id="eye-color"
+            v-model="eyeColor"
+            class="text-box dynapuff-font"
+          />
+        </p>
+        <p>
+          <label for="eye-color">Hair Color</label>
+          <input
+            type="text"
+            id="hair-color"
+            v-model="hairColor"
+            class="text-box dynapuff-font"
+          />
+        </p>
+        <p>
+          <label for="eye-color">Skin Color</label>
+          <input
+            type="text"
+            id="skin-color"
+            v-model="skinColor"
+            class="text-box dynapuff-font"
+          />
+        </p>
+        <button class="btn dynapuff-font" @click="this.doColorAnalysis">Analyse</button>
+      </div>
     </div>
   </div>
 </template>
@@ -128,9 +149,9 @@ export default {
         }
         // this.color = rgb;
         // console.log(this.color);
-        if (this.skinColor && this.eyeColor && this.hairColor) {
-          this.doColorAnalysis();
-        }
+        // if (this.skinColor && this.eyeColor && this.hairColor) {
+          // this.doColorAnalysis();
+        // }
       });
     },
 }
@@ -173,6 +194,21 @@ export default {
   height: 1px;
 }
 .cursor-pointer {
+  cursor: pointer;
+}
+.text-box {
+  border: 0px;
+  border-bottom: 1px solid black;
+  background-color: #fae1dd;
+  text-align: center;
+  padding: 0.5em;
+}
+.btn {
+  background-color: white;
+  color: black;
+  padding: 1em;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
 }
 </style>
