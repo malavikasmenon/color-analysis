@@ -63,13 +63,16 @@
             class="text-box dynapuff-font"
           />
         </p>
-        <button class="btn dynapuff-font" @click="this.doColorAnalysis">Analyse</button>
+        <button class="btn dynapuff-font" @click="this.startColorAnalysis">
+          Analyse
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="js">
+import {doColorAnalysis} from "../common"
 export default {
     data() {
     return {
@@ -154,6 +157,9 @@ export default {
         // }
       });
     },
+    startColorAnalysis() {
+      doColorAnalysis(this.eyeColor, this.skinColor, this.hairColor)
+    }
 }
 }
 </script>
