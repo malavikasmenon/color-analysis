@@ -35,6 +35,7 @@
         v-show="image"
       />
       <canvas ref="canvas" style="display: none"></canvas>
+      <p v-show="this.image">Click on the picture to pick colors</p>
       <div class="selected-color" v-show="this.selectedColor">
         <p v-show="this.selectedColor">Chosen Color: {{ this.selectedColor }}</p>
         <div

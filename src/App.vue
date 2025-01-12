@@ -105,27 +105,27 @@ export default {
       // Define a range of warm and cool hues
       if ((0 <= hue && hue <= 50) || (330 <= hue && hue <= 360)) {
         // Reds, yellows (warm)
-        return "warm";
+        return "Warm";
       } else if (50 < hue && hue <= 180) {
         // Greens, cyans (cool)
-        return "cool";
+        return "Cool";
       } else if (180 < hue && hue < 330) {
         // Blues, purples (cool)
-        return "cool";
+        return "Cool";
       } else {
-        return "warm";
+        return "Warm";
       }
     },
 
     determine_lightness_category(lightness) {
       // Classify lightness into light, medium, or dark.
-      console.log("light", lightness);
+      console.log("Light", lightness);
       if (lightness > 70) {
-        return "light";
+        return "Light";
       } else if (lightness > 40 && lightness <= 70) {
-        return "medium";
+        return "Medium";
       } else {
-        return "dark";
+        return "Dark";
       }
     },
 
@@ -202,25 +202,25 @@ export default {
       console.log("Eye lightness", this.eyeLightness);
 
       // Seasonal decision based on undertones and lightness
-      if (this.skinUndertone === "cool") {
-        if (this.hairLightness === "light" && this.eyeLightness === "light") {
+      if (this.skinUndertone === "Cool") {
+        if (this.hairLightness === "Light" && this.eyeLightness === "Light") {
           return "Summer";
-        } else if (this.hairLightness === "dark" && this.eyeLightness === "dark") {
+        } else if (this.hairLightness === "Dark" && this.eyeLightness === "Dark") {
           return "Winter";
-        } else if (this.hairLightness === "light" && this.eyeLightness === "dark") {
-          if (this.skinLightness === "light") {
+        } else if (this.hairLightness === "Light" && this.eyeLightness === "Dark") {
+          if (this.skinLightness === "Light") {
             return "Winter";
           } else {
             return "Summer";
           }
         }
-      } else if (this.skinUndertone === "warm") {
-        if (this.hairLightness === "light" && this.eyeLightness === "light") {
+      } else if (this.skinUndertone === "Warm") {
+        if (this.hairLightness === "Light" && this.eyeLightness === "Light") {
           return "Spring";
-        } else if (this.hairLightness === "dark" && this.eyeLightness === "dark") {
+        } else if (this.hairLightness === "Dark" && this.eyeLightness === "Dark") {
           return "Autumn";
-        } else if (this.hairLightness === "light" && this.eyeLightness === "dark") {
-          if (this.skinLightness === "light") {
+        } else if (this.hairLightness === "Light" && this.eyeLightness === "Dark") {
+          if (this.skinLightness === "Light") {
             return "Spring";
           } else {
             return "Autumn";
