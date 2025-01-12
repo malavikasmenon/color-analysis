@@ -34,6 +34,50 @@
         class="image"
         v-show="image"
       />
+      <canvas ref="canvas" style="display: none"></canvas>
+      <div class="selected-color" v-show="this.selectedColor">
+        <p v-show="this.selectedColor">Chosen Color: {{ this.selectedColor }}</p>
+        <div
+          class="color-circle"
+          v-show="this.selectedColor"
+          :style="{
+            'background-color': this.selectedColor,
+          }"
+        ></div>
+      </div>
+      <div v-show="this.selectedColor">
+        <p>Set chosen color as</p>
+        <button
+          class="btn dynapuff-font"
+          @click="
+            () => {
+              this.eyeColor = this.selectedColor;
+            }
+          "
+        >
+          Eye Color
+        </button>
+        <button
+          class="btn dynapuff-font"
+          @click="
+            () => {
+              this.hairColor = this.selectedColor;
+            }
+          "
+        >
+          Hair Color
+        </button>
+        <button
+          class="btn dynapuff-font"
+          @click="
+            () => {
+              this.skinColor = this.selectedColor;
+            }
+          "
+        >
+          Skin Color
+        </button>
+      </div>
       <div v-show="image">
         <!-- <p>Click on photo to pick colors</p> -->
         <p>
@@ -63,6 +107,7 @@
             class="text-box dynapuff-font"
           />
         </p>
+
         <button class="btn dynapuff-font" @click="this.startColorAnalysis">
           Analyse
         </button>
@@ -72,7 +117,6 @@
 </template>
 
 <script lang="js">
-import {doColorAnalysis} from "../common"
 export default {
     data() {
     return {
@@ -81,6 +125,7 @@ export default {
       skinColor: null,
       hairColor: null,
       imageLoaded: false,
+      selectedColor: null
     };
   },
   methods: {
@@ -121,7 +166,8 @@ export default {
       //   return;
       // }
       this.$nextTick(() => {
-        const canvas = document.createElement("canvas");
+        // const canvas = document.createElement("canvas");
+        const canvas = this.$refs.canvas
         const context = canvas.getContext("2d");
         const image = this.$refs.image;
 
@@ -132,24 +178,26 @@ export default {
 
         canvas.width = image.width;
         canvas.height = image.height;
-        context.drawImage(image, 0, 0);
+        context.drawImage(image, 0, 0, image.width, image.height);
 
-        // const rect = image.getBoundingClientRect();
-        // const x = event.clientX - rect.left;
-        // const y = event.clientY - rect.top;
+        const rect = image.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-        const x = event.clientX;
-        const y = event.clientY;
+        // const x = event.clientX;
+        // const y = event.clientY;
 
         const pixel = context.getImageData(x, y, 1, 1).data;
         const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
-        if (!this.eyeColor) {
-          this.eyeColor = rgb;
-        } else if (!this.hairColor) {
-          this.hairColor = rgb;
-        } else {
-          this.skinColor = rgb;
-        }
+        console.log("chosen color", rgb)
+        this.selectedColor = rgb
+        // if (!this.eyeColor) {
+        //   this.eyeColor = rgb;
+        // } else if (!this.hairColor) {
+        //   this.hairColor = rgb;
+        // } else {
+        //   this.skinColor = rgb;
+        // }
         // this.color = rgb;
         // console.log(this.color);
         // if (this.skinColor && this.eyeColor && this.hairColor) {
@@ -158,7 +206,8 @@ export default {
       });
     },
     startColorAnalysis() {
-      doColorAnalysis(this.eyeColor, this.skinColor, this.hairColor)
+      this.$emit('analyse', [this.eyeColor, this.skinColor, this.hairColor])
+      // doColorAnalysis(this.eyeColor, this.skinColor, this.hairColor)
     }
 }
 }
@@ -216,5 +265,21 @@ export default {
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+.selected-color {
+  display: flex;
+  justify-content: center;
+  border: 1px dashed grey;
+  padding: 1em;
+  margin-top: 1em;
+}
+.color-circle {
+  width: 50px;
+  height: 50px;
+  margin-left: 1em;
+  border-radius: 50%;
+  font-size: x-small;
 }
 </style>
