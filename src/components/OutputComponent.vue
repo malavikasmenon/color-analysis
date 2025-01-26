@@ -33,23 +33,9 @@ export default {
     "hairLightness",
     "skinLightness",
     "colorProfile",
+    "apiOutput",
   ],
-  methods: {
-    getBestColorsForSeason(season) {
-      switch (season) {
-        case "Spring":
-          return "warm, light, and fresh colors like peach, coral, turquoise, warm green, and soft yellow.";
-        case "Summer":
-          return "cool, soft, and pastel tones like lavender, rose, soft blue, pale pink, and mint green.";
-        case "Autumn":
-          return "warm, earthy, and rich colors like burnt orange, mustard yellow, olive green, brown, and deep red.";
-        case "Winter":
-          return "cool, bold, and high-contrast colors like black, white, cool blues, emerald green, and jewel tones.";
-        default:
-          return "Please provide a valid season: Spring, Summer, Autumn, or Winter.";
-      }
-    },
-  },
+  methods: {},
 };
 </script>
 
