@@ -252,6 +252,7 @@ export default {
 .cursor-pointer {
   cursor: pointer;
 }
+
 .text-box {
   border: 0px;
   border-bottom: 1px solid black;

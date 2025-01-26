@@ -46,6 +46,32 @@ body {
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
+
+/* For phone screens */
+@media only screen and (max-device-width: 600px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+  }
+  .input-side {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 1em 0;
+  }
+  .output-side {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 1em 0;
+  }
+  .image-upload {
+    margin: auto;
+  }
+  .selected-color {
+    font-size: small;
+  }
+}
 </style>
 
 <script>
