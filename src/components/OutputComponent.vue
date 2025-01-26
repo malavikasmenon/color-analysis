@@ -17,7 +17,10 @@
       </p>
     </div>
     <div v-else>
-      <p>Awaiting your color selection</p>
+      <p>
+        Awaiting your color selection <br />
+        for analysis
+      </p>
     </div>
   </div>
 </template>

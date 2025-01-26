@@ -6,7 +6,7 @@
       href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap"
       rel="stylesheet"
     />
-    <h1 class="header">Find YOUR colors!</h1>
+    <h1 class="header">Find YOUR Colors!</h1>
     <div class="container">
       <InputComponent @analyse="this.doColorAnalysis" />
       <OutputComponent
@@ -60,27 +60,22 @@ body {
   .container {
     flex-direction: column;
     width: 100%;
-    min-height: 100%;
     overflow-y: auto;
-    /* height: max-content; */
+    background-color: #f8edeb;
   }
   .input-side {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 1em 0;
-    /* min-height: 50%; */
     height: max-content;
-    /* overflow-y: auto; */
   }
   .output-side {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 1em 0;
-    /* min-height: 50%; */
     height: max-content;
-    /* overflow-y: auto; */
   }
   .image-upload {
     margin: auto;
