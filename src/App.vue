@@ -49,21 +49,28 @@ body {
 
 /* For phone screens */
 @media only screen and (max-device-width: 600px) {
+  html {
+    overflow: auto;
+  }
   .container {
     flex-direction: column;
     width: 100%;
+    /* height: 100%; */
+    overflow-y: auto;
   }
   .input-side {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 1em 0;
+    /* height: max-content; */
   }
   .output-side {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 1em 0;
+    /* height: max-content; */
   }
   .image-upload {
     margin: auto;
