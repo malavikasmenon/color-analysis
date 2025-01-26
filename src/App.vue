@@ -83,6 +83,9 @@ body {
   .selected-color {
     font-size: small;
   }
+  .btn {
+    margin-bottom: 0.75em;
+  }
 }
 </style>
 
