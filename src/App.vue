@@ -53,6 +53,10 @@ body {
     overflow: auto;
     height: 100%;
   }
+  body {
+    height: 100%;
+    overflow: auto;
+  }
   .container {
     flex-direction: column;
     width: 100%;
@@ -74,7 +78,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 1em 0;
-    min-height: 50%;
+    /* min-height: 50%; */
     height: max-content;
     /* overflow-y: auto; */
   }
