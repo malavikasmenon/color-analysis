@@ -90,6 +90,7 @@ body {
 </style>
 
 <script>
+import OpenAI from "openai";
 import InputComponent from "./components/InputComponent.vue";
 import OutputComponent from "./components/OutputComponent.vue";
 
@@ -112,26 +113,32 @@ export default {
     };
   },
   methods: {
+    async callOpenAI(prompt) {
+      try {
+        const response = await fetch("/.netlify/functions/openai-call", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("OpenAI Response:", data.response);
+        return data.response;
+      } catch (error) {
+        console.error("Error calling OpenAI:", error);
+        return "An error occurred while calling OpenAI.";
+      }
+    },
     doColorAnalysis(input_colors) {
       this.eyeColor = input_colors[0];
       this.skinColor = input_colors[1];
       this.hairColor = input_colors[2];
-      // let skin_categories = {
-      //   warm: (1, 2, 3),
-      //   cool: (1, 2, 3),
-      //   neutral: (1, 2, 3),
-      //   olive: (1, 2, 3),
-      // };
-      // let eye_categories = {
-      //   cool: (1, 2, 3),
-      //   warm: (1, 2, 3),
-      // };
-      // let hair_categories = {
-      //   cool: (1, 2, 3),
-      //   warm: (1, 2, 3),
-      //   grey: (1, 2, 3),
-      // };
-      // console.log(skin_categories, eye_categories, hair_categories);
       console.log(
         (this.colorProfile = this.seasonal_color_analysis(
           this.hairColor,
@@ -139,6 +146,11 @@ export default {
           this.eyeColor
         ))
       );
+      prompt = `My skin-tone is ${this.skinColor}, my hair color is ${this.hairColor} and my eye color is ${this.eyeColor}. Which skin-tone color palette am I in terms of seasons? What colors would look good on me? Give in the format
+                Seasonal Profile: ___ \n Explanation: ___`;
+      callOpenAI(prompt).then((response) => {
+        console.log("Generated text:", response);
+      });
     },
 
     determine_undertone(hue) {
@@ -241,6 +253,8 @@ export default {
       console.log("Hair lightness", this.hairLightness);
       console.log("Skin lightness", this.skinLightness);
       console.log("Eye lightness", this.eyeLightness);
+
+      this.openAICall();
 
       // Seasonal decision based on undertones and lightness
       if (this.skinUndertone === "Cool") {
