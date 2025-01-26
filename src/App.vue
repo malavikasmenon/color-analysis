@@ -51,26 +51,32 @@ body {
 @media only screen and (max-device-width: 600px) {
   html {
     overflow: auto;
+    height: 100%;
   }
   .container {
     flex-direction: column;
     width: 100%;
-    /* height: 100%; */
+    min-height: 100%;
     overflow-y: auto;
+    /* height: max-content; */
   }
   .input-side {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 1em 0;
-    /* height: max-content; */
+    /* min-height: 50%; */
+    height: max-content;
+    /* overflow-y: auto; */
   }
   .output-side {
     width: 100%;
     text-align: center;
     margin: 0;
     padding: 1em 0;
-    /* height: max-content; */
+    min-height: 50%;
+    height: max-content;
+    /* overflow-y: auto; */
   }
   .image-upload {
     margin: auto;
