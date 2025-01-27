@@ -1,23 +1,19 @@
 <template>
   <div class="output-side">
-    <div v-if="this.colorProfile" class="text-analysis">
+    <div v-if="this.seasonalColorProfile" class="text-analysis">
       <h1>Color Analysis</h1>
       <br />
-      <p>Skin undertone: {{ this.skinUndertone }}</p>
-      <p>Skin lightness: {{ this.skinLightness }}</p>
-      <p>Hair lightness: {{ this.hairLightness }}</p>
-      <p>Eye lightness: {{ this.eyeLightness }}</p>
       <br />
-      <p>Your seasonal color profile is</p>
-      <h1>{{ this.colorProfile }}</h1>
+      <p class="">Your seasonal color profile is</p>
+      <h2 class="typewriter">{{ this.seasonalColorProfile }}</h2>
       <br />
-      <p style="border: 1px dashed grey; padding: 5%">
-        Best colors for {{ this.colorProfile }} include
-        {{ this.getBestColorsForSeason(this.colorProfile) }}
+      <p class="explanation">
+        {{ this.explanation ? this.explanation : this.apiOutput }}
       </p>
     </div>
     <div v-else>
-      <p>
+      <p v-if="isLoading" class="typewriter">Analysing...</p>
+      <p v-else class="typewriter">
         Awaiting your color selection <br />
         for analysis
       </p>
@@ -27,29 +23,8 @@
 
 <script>
 export default {
-  props: [
-    "skinUndertone",
-    "eyeLightness",
-    "hairLightness",
-    "skinLightness",
-    "colorProfile",
-  ],
-  methods: {
-    getBestColorsForSeason(season) {
-      switch (season) {
-        case "Spring":
-          return "warm, light, and fresh colors like peach, coral, turquoise, warm green, and soft yellow.";
-        case "Summer":
-          return "cool, soft, and pastel tones like lavender, rose, soft blue, pale pink, and mint green.";
-        case "Autumn":
-          return "warm, earthy, and rich colors like burnt orange, mustard yellow, olive green, brown, and deep red.";
-        case "Winter":
-          return "cool, bold, and high-contrast colors like black, white, cool blues, emerald green, and jewel tones.";
-        default:
-          return "Please provide a valid season: Spring, Summer, Autumn, or Winter.";
-      }
-    },
-  },
+  props: ["seasonalColorProfile", "apiOutput", "explanation", "isLoading"],
+  methods: {},
 };
 </script>
 
@@ -67,5 +42,38 @@ export default {
 .text-analysis {
   padding-left: 10%;
   padding-right: 10%;
+}
+.typewriter {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  /* border-right: 0.15em solid orange; The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: typing 3.5s steps(40, end);
+}
+.explanation {
+  opacity: 0.6;
+  border: 1px dashed grey;
+  padding: 1em;
+  line-height: 1.6;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
 }
 </style>
