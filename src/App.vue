@@ -10,6 +10,7 @@
     <div class="container">
       <InputComponent @analyse="this.doColorAnalysis" />
       <OutputComponent
+        :isLoading="isLoading"
         :apiOutput="apiOutput"
         :seasonalColorProfile="seasonalColorProfile"
         :explanation="explanation"
@@ -105,26 +106,29 @@ export default {
       seasonalColorProfile: null,
       apiOutput: "",
       explanation: "",
+      isLoading: false,
     };
   },
   methods: {
     async callOpenAI(prompt) {
       try {
+        this.isLoading = true;
         const response = await fetch("/.netlify/functions/openai-call", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prompt }),
+          body: JSON.stringify(prompt),
         });
 
         if (!response.ok) {
+          console.log("here");
           throw new Error(`Error: ${response.statusText}`);
         }
 
         const data = await response.json();
-        console.log("OpenAI Response:", data.response);
-        return data.response;
+        console.log("OpenAI Response:", data);
+        return data.result.content;
       } catch (error) {
         console.error("Error calling OpenAI:", error);
         return "An error occurred while calling OpenAI.";
@@ -138,13 +142,14 @@ export default {
       let prompt = `My skin-tone is ${this.skinColor}, my hair color is ${this.hairColor} and my eye color is ${this.eyeColor}. Which skin-tone color palette am I in terms of seasons? What colors would look good on me? Answer in 150 tokens in this format:
                 Seasonal Profile: ___ \n Explanation: ___`;
       this.callOpenAI(prompt).then((response) => {
+        this.isLoading = false;
         this.apiOutput = response;
         console.log("Generated text:", response);
         const resultText = response.trim();
         const seasonalProfileMatch = resultText.match(/Seasonal Profile:\s*(.+)/);
         const explanationMatch = resultText.match(/Explanation:\s*(.+)/);
         this.seasonalColorProfile = seasonalProfileMatch ? seasonalProfileMatch[1] : null;
-        this.explanation = explanationMatch ? explanationMatch[1] : null;
+        this.explanation = explanationMatch ? explanationMatch[1] : resultText;
       });
     },
   },

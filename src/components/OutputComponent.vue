@@ -1,18 +1,19 @@
 <template>
   <div class="output-side">
-    <div v-if="this.colorProfile" class="text-analysis">
+    <div v-if="this.seasonalColorProfile" class="text-analysis">
       <h1>Color Analysis</h1>
       <br />
       <br />
-      <p class="typewriter">Your seasonal color profile is</p>
+      <p class="">Your seasonal color profile is</p>
       <h2 class="typewriter">{{ this.seasonalColorProfile }}</h2>
       <br />
-      <p class="explanation typewriter">
+      <p class="explanation">
         {{ this.explanation ? this.explanation : this.apiOutput }}
       </p>
     </div>
     <div v-else>
-      <p class="typewriter">
+      <p v-if="isLoading" class="typewriter">Analysing...</p>
+      <p v-else class="typewriter">
         Awaiting your color selection <br />
         for analysis
       </p>
@@ -22,7 +23,7 @@
 
 <script>
 export default {
-  props: ["seasonalColorProfile", "apiOutput", "explanation"],
+  props: ["seasonalColorProfile", "apiOutput", "explanation", "isLoading"],
   methods: {},
 };
 </script>
@@ -44,11 +45,17 @@ export default {
 }
 .typewriter {
   overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: 0.15em solid orange; /* The typwriter cursor */
+  /* border-right: 0.15em solid orange; The typwriter cursor */
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   letter-spacing: 0.15em; /* Adjust as needed */
-  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  animation: typing 3.5s steps(40, end);
+}
+.explanation {
+  opacity: 0.6;
+  border: 1px dashed grey;
+  padding: 1em;
+  line-height: 1.6;
 }
 
 /* The typing effect */
