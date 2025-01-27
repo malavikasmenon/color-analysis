@@ -10,11 +10,9 @@
     <div class="container">
       <InputComponent @analyse="this.doColorAnalysis" />
       <OutputComponent
-        :skinUndertone="skinUndertone"
-        :eyeLightness="eyeLightness"
-        :hairLightness="hairLightness"
-        :skinLightness="skinLightness"
-        :colorProfile="colorProfile"
+        :apiOutput="apiOutput"
+        :seasonalColorProfile="seasonalColorProfile"
+        :explanation="explanation"
       />
     </div>
   </div>
@@ -90,7 +88,6 @@ body {
 </style>
 
 <script>
-import OpenAI from "openai";
 import InputComponent from "./components/InputComponent.vue";
 import OutputComponent from "./components/OutputComponent.vue";
 
@@ -105,12 +102,9 @@ export default {
       eyeColor: null,
       skinColor: null,
       hairColor: null,
-      skinUndertone: null,
-      hairLightness: null,
-      eyeLightness: null,
-      skinLightness: null,
-      colorProfile: null,
-      apiOutput: ''
+      seasonalColorProfile: null,
+      apiOutput: "",
+      explanation: "",
     };
   },
   methods: {
@@ -140,19 +134,19 @@ export default {
       this.eyeColor = input_colors[0];
       this.skinColor = input_colors[1];
       this.hairColor = input_colors[2];
-      console.log(
-          this.hairColor,
-          this.skinColor,
-          this.eyeColor
-        )
-      prompt = `My skin-tone is ${this.skinColor}, my hair color is ${this.hairColor} and my eye color is ${this.eyeColor}. Which skin-tone color palette am I in terms of seasons? What colors would look good on me? Answer in 150 tokens in this format:
+      console.log(this.hairColor, this.skinColor, this.eyeColor);
+      let prompt = `My skin-tone is ${this.skinColor}, my hair color is ${this.hairColor} and my eye color is ${this.eyeColor}. Which skin-tone color palette am I in terms of seasons? What colors would look good on me? Answer in 150 tokens in this format:
                 Seasonal Profile: ___ \n Explanation: ___`;
       this.callOpenAI(prompt).then((response) => {
-        this.apiOutput = response
+        this.apiOutput = response;
         console.log("Generated text:", response);
+        const resultText = response.trim();
+        const seasonalProfileMatch = resultText.match(/Seasonal Profile:\s*(.+)/);
+        const explanationMatch = resultText.match(/Explanation:\s*(.+)/);
+        this.seasonalColorProfile = seasonalProfileMatch ? seasonalProfileMatch[1] : null;
+        this.explanation = explanationMatch ? explanationMatch[1] : null;
       });
-
     },
-
-  }
-}
+  },
+};
+</script>

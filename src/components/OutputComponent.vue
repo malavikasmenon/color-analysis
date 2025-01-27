@@ -3,17 +3,12 @@
     <div v-if="this.colorProfile" class="text-analysis">
       <h1>Color Analysis</h1>
       <br />
-      <p>Skin undertone: {{ this.skinUndertone }}</p>
-      <p>Skin lightness: {{ this.skinLightness }}</p>
-      <p>Hair lightness: {{ this.hairLightness }}</p>
-      <p>Eye lightness: {{ this.eyeLightness }}</p>
       <br />
-      <p>Your seasonal color profile is</p>
-      <h1>{{ this.colorProfile }}</h1>
+      <p class="typewriter">Your seasonal color profile is</p>
+      <h2 class="typewriter">{{ this.seasonalColorProfile }}</h2>
       <br />
-      <p style="border: 1px dashed grey; padding: 5%">
-        Best colors for {{ this.colorProfile }} include
-        {{ this.getBestColorsForSeason(this.colorProfile) }}
+      <p class="explanation typewriter">
+        {{ this.explanation ? this.explanation : this.apiOutput }}
       </p>
     </div>
     <div v-else>
@@ -27,14 +22,7 @@
 
 <script>
 export default {
-  props: [
-    "skinUndertone",
-    "eyeLightness",
-    "hairLightness",
-    "skinLightness",
-    "colorProfile",
-    "apiOutput",
-  ],
+  props: ["seasonalColorProfile", "apiOutput", "explanation"],
   methods: {},
 };
 </script>
@@ -53,5 +41,32 @@ export default {
 .text-analysis {
   padding-left: 10%;
   padding-right: 10%;
+}
+.typewriter {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: 0.15em solid orange; /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.15em; /* Adjust as needed */
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
 }
 </style>
