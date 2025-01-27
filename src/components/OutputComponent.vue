@@ -12,7 +12,7 @@
       </p>
     </div>
     <div v-else>
-      <p>
+      <p class="typewriter">
         Awaiting your color selection <br />
         for analysis
       </p>
