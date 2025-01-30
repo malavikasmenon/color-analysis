@@ -270,6 +270,7 @@ export default {
   cursor: pointer;
   margin-left: 1em;
   margin-right: 1em;
+  margin-top: 0.5em;
 }
 .selected-color {
   display: flex;
