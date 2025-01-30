@@ -236,6 +236,7 @@ export default {
   text-align: center;
   background-color: #fae1dd;
   padding: 5%;
+  min-height: 100vh;
 }
 #drop_zone {
   border: 1px dashed grey;

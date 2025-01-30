@@ -32,12 +32,13 @@ export default {
 .output-side {
   /* display: flex;
   flex-direction: column; */
-  height: 100%;
+  /* height: 100%; */
   width: 50%;
   background-color: #f8edeb;
   text-align: center;
   padding: 5%;
   justify-content: center;
+  min-height: 100vh;
 }
 .text-analysis {
   padding-left: 10%;

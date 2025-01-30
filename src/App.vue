@@ -20,6 +20,9 @@
 </template>
 
 <style>
+html {
+  /* min-height: 100vh; */
+}
 body {
   margin: 0;
   padding: 0;
@@ -29,10 +32,11 @@ body {
   /* margin: 0; */
   /* display: flex; */
   /* height: 100vh; */
+  min-height: 100vh;
 }
 .container {
   display: flex;
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0;
 }
 .header {
